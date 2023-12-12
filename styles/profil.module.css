@@ -1,0 +1,41 @@
+.title {
+    color:  #004AAD;
+    text-align: center;
+    height: 40px;
+    border-bottom: 1px solid black;
+    margin: 15vh auto 0px auto; 
+}
+
+.boxH1 {
+    position: relative
+}
+
+.boxH2 {
+    display: flex;
+    justify-content: center;
+}
+
+.h2 {
+    color:  #004AAD;
+    text-align: center; 
+}
+
+.article {
+    padding: 8px;
+    margin: 20px auto;
+    width: 80%;
+    text-align: center;
+    border-bottom: 1px  solid black;
+}
+
+.logoImg {
+    margin-right: 8px;
+}
+
+.logoParams {
+    position: absolute;
+    right: 10px;
+    bottom: 8px;
+    padding: 4px;
+    border: 1px solid black;
+}

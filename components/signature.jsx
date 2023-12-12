@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import SignatureCanvas from 'react-signature-canvas';
 
-const SignaturePad = () => {
+const Signature = () => {
   const signatureRef = useRef();
 
   return (
@@ -15,4 +15,4 @@ const SignaturePad = () => {
   );
 };
 
-export default SignaturePad;
+export default Signature;

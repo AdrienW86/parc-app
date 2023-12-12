@@ -1,0 +1,45 @@
+.header {
+    position:fixed;
+    width: 100%;
+    height: 10vh;
+    height: 100px;
+    z-index: 2;
+    overflow: hidden;
+    border-bottom: 1px solid black;
+    background-color: rgb(190, 222, 250);
+}
+
+.nav {
+    display: flex;
+    list-style: none;
+  }
+
+  .audit, .calendar {
+    display: flex;
+    color:  #004AAD;
+    font-weight: bold;
+    width: 100px;
+    height: 100px;
+   
+    justify-content: center;
+    margin: 0 auto;
+    text-align: center;  
+   
+  }
+
+
+  .logo {
+    display: flex;
+    background-color: rgb(255, 255, 255);
+   border-right: 1px solid black
+  }
+
+  .logoImg {
+    margin: auto;
+  }
+
+  .p {
+    position: absolute;
+    width: 100px;
+    bottom: 6px;
+  }
