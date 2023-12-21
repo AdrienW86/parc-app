@@ -1,0 +1,57 @@
+.signature {
+    width: 300px;
+    margin: 30px auto;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.box {
+    display: flex;
+    margin: 20px 0;
+    justify-content: space-around;
+}
+
+.btnDelete, .btnSave {
+    width: 60px;
+    padding: 4px
+}
+
+.btnDelete {
+    border: none;
+    color: white;
+    transition: .4s ease-in-out;
+    background-color: red;
+}
+
+.btnDelete:hover {
+    cursor: pointer;
+    background-color: rgb(172, 3, 3);
+}
+
+.btnSave {
+    border: none;
+    color: white;
+    transition: .4s ease-in-out;
+    background-color: green;
+}
+
+.btnSave:hover {
+    cursor: pointer;
+    background-color: rgb(0, 87, 0);
+}
+
+.boxCheck {
+    width: 100%;
+    display: flex;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 50px auto;
+    justify-content: center;
+}
+
+.check {
+    position: relative;
+    left: 4px;
+    bottom: 4px
+}

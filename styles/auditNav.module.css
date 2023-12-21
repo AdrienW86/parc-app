@@ -1,0 +1,97 @@
+.btnContainer {
+    margin-top: 120px;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.btn, .open, .close {
+    height: 30px;
+    width: 100px;
+    margin: auto;
+    color: #004AAD;
+    border-radius: 4px;
+    transition: .4s ease-in-out;
+    border: 1px solid #004AAD;
+    background-color: aliceblue;
+}
+
+.open, .close {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: green;
+    border: 1px solid green;
+}
+
+.close {
+    color: red;
+    border: 1px solid red;
+}
+
+.btn:hover {
+    cursor: pointer;
+    color: aliceblue;
+    background-color: #004AAD;
+}
+
+.title, .open, .close {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 20px;
+}
+
+.h3 {
+    color: #004AAD;
+}
+
+.listAudit {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.openAudit {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid black;
+    width: 250px;
+    height: 140px;
+    margin: 20px auto;
+    padding: 8px;
+    text-align: center;
+}
+
+.span, .spanDate, .spanDeparture {
+    font-weight: bold;
+    color: #004AAD;
+}
+
+.spanDate {
+    color: green
+}
+
+
+.spanDeparture {
+    color: red
+}
+
+.showBtn {
+    margin: 0 auto;
+    width: 80px;
+    color: #004AAD;
+    font-weight: bold;
+    border-radius: 8px;
+    border: 2px solid #004AAD;
+    background: white;
+    transition: .4s ease-in-out;
+}
+
+.showBtn:hover {
+    cursor: pointer;
+    color: white;
+    background-color: #004AAD;
+}

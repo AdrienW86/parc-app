@@ -1,0 +1,174 @@
+.form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 120px auto 40px auto;
+}
+
+.container {
+   width: 100%; 
+}
+
+.bailleur {
+    width: 300px;
+    height: 375px;
+    margin: 30px auto;
+    display: flex;
+    border-radius: 12px;
+    border: 3px solid #004AAD;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.h2 {
+    text-align: center;
+    margin: 10px;
+    color: #004AAD;
+}
+
+.name {
+    margin: 10px 0 0 10px;
+    height: 30px;
+    width: 280px
+}
+
+.number, .street, .city, .zipcode, .country {
+    height: 30px;
+    margin-top: 30px;
+}
+.number {
+    width: 70px;
+    margin: 0px 30px 0 10px;
+}
+
+.street {
+    width: 180px;
+}
+
+.zipcode {
+    width: 100px;
+    margin: 0 20px 0 10px;
+}
+
+.city {
+    width: 160px;
+}
+
+.country {
+    width: 180px;
+    margin-left: 10px;
+}
+
+.room {
+    width: 300px;
+    height: 375px;
+    border: 1px solid black;
+    margin: 20px
+}
+
+.h3 {
+    font-size: 1.5em;
+    text-align: center;
+    margin: 0 0 10px 0;
+    width: 300px;
+    color: white;
+    padding: 8px;
+    background-color: #004AAD;
+}
+
+.category {
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.label {
+    font-weight: bold;
+    margin: 8px 0
+}
+
+.labelBox {
+    display: flex;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+
+.input {
+    text-align: center;
+    margin: 2px;
+    height: 20px;
+    width: 20px;
+}
+
+.button {
+    width: 65px;
+    height: 35px;
+    border: none;
+    transition: .4s ease-in-out;
+    border-radius: 4px;
+    padding: 4px;
+    border: 1px solid black;
+}
+
+.green, .blue, .orange, .red {
+    color: white;
+    transition: .4s ease-in;
+}
+
+.button:hover {
+    cursor: pointer; 
+}
+
+.green:hover, .blue:hover, .orange:hover, .red:hover {
+    color: white;
+    cursor: pointer;
+}
+
+.green {
+    background-color: green
+}
+
+.blue {
+    background-color: yellowgreen;
+}
+
+.orange {
+    background-color: rgb(250, 124, 78)
+}
+
+.red {
+    background-color: red;
+}
+
+.boxSignature {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.signature {
+    margin: 0 10px;
+}
+
+.submit {
+    font-size: 1.5em;
+    width: 160px;
+    padding: 8px;
+    margin: 40px 70px;
+    color: green;
+    transition: .4s ease-in-out;
+    background-color: white;
+    border: 1px solid green
+}
+
+.dash {
+    width: 100%;
+    margin-bottom: 40px;
+    border-top: 2px solid black
+}
+
+.submit:hover {
+    cursor: pointer;
+    color: white;
+    background-color: green;
+}

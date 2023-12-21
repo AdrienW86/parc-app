@@ -1,28 +1,61 @@
+.profil{
+    opacity: 1;
+}
+
 .title {
     color:  #004AAD;
     text-align: center;
-    height: 40px;
-    border-bottom: 1px solid black;
-    margin: 15vh auto 0px auto; 
-}
-
-.boxH1 {
-    position: relative
-}
-
-.boxH2 {
+    height: 50px;
+    font-size: 1.5em;
     display: flex;
+    flex-direction: column;
     justify-content: center;
 }
 
+.boxH1 {
+    height: 50px;
+    position: relative;
+    top: 100px;
+    border-bottom: 1px solid black;
+}
+
+.infosContainer {
+    display: flex;
+    margin-top: 100px;
+    justify-content: space-around;
+    border-bottom: 1px solid black;
+}
+
+.infos, .userInfos {  
+    padding: 30px 10px;
+    line-height: 1.5; 
+}
+
+.userInfos {
+    text-align: right;
+    color:  #004AAD;
+}
+
 .h2 {
+    padding: 8px;
     color:  #004AAD;
     text-align: center; 
+    display: flex;
+    width: 250px;
+    margin: 20px auto;
+    transition: .4s ease-in-out;
+    justify-content: center;
+}
+
+.h2:hover {
+    color: white;
+    cursor: pointer;
+    background-color: #004AAD
 }
 
 .article {
     padding: 8px;
-    margin: 20px auto;
+    margin: auto;
     width: 80%;
     text-align: center;
     border-bottom: 1px  solid black;
@@ -32,10 +65,21 @@
     margin-right: 8px;
 }
 
-.logoParams {
+.logoParams, .logoHome {
     position: absolute;
     right: 10px;
     bottom: 8px;
     padding: 4px;
+    transition: .4s ease-in-out;
     border: 1px solid black;
 }
+
+.logoHome {
+    left: 10px;
+}
+
+.logoParams:hover, .logoHome:hover {
+    cursor: pointer;
+    background-color: rgb(196, 196, 196);
+}
+

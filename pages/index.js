@@ -1,16 +1,14 @@
-import { Inter } from 'next/font/google'
-import Profil from '@/components/profil'
 import styles from '@/styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import Sign from '@/components/sign'
+import Login from '@/components/login'
 
 export default function Home() {
   return (
     <>
-      
-      <main className={`${styles.main} ${inter.className}`}>
-   <Profil />
-      </main>
+        <div className={styles.background}></div>         
+        <h2> Connectez vous</h2>
+        <Login />
+        
     </>
   )
 }
