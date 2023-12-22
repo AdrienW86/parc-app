@@ -24,7 +24,7 @@ const Signature = ({ onSignatureChange }) => {
       <div className={styles.signature}>
       <SignatureCanvas
         ref={signatureRef}
-        canvasProps={{ width: 500, height: 200, margin: 400, className: 'signature' }}
+        canvasProps={{ width: 300, height: 200, margin: 400, className: 'signature' }}
       />
       <div className={styles.box}>      
         <button type='button' className={styles.btnSave} onClick={handleSave}> Valider </button>
