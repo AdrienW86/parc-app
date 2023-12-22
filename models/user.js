@@ -16,6 +16,7 @@ const labelSchema = new mongoose.Schema({
 });
 
 const pieceSchema = new mongoose.Schema({
+  title: String,
   name: String,
   sol: labelSchema,
   meubles: labelSchema,
@@ -34,7 +35,7 @@ const pieceSchema = new mongoose.Schema({
 const auditSchema = new mongoose.Schema({
   firstname: String,
   name: String,
-  date: Date,
+  date: String,
   departure: String,
   userSignature: String,
   clientSignature: String,

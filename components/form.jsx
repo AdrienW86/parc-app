@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { roomsData } from '@/utils/room';
 import Signature from '@/components/signature';
@@ -13,7 +13,34 @@ const criteriaOptions = [
 
 const MyForm = () => {
 
-  const [buttonColors, setButtonColors] = useState({});
+
+  function formatDate(date) {
+    // Vérifier si la date est une chaîne de caractères, si c'est le cas, la convertir en objet Date
+    if (!(date instanceof Date)) {
+      date = new Date(date);
+    }
+  
+    // Obtenir les composants de la date
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Les mois commencent à 0, donc ajoutez 1
+    const year = date.getFullYear();
+  
+    // Ajouter un zéro devant le jour et le mois si nécessaire
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+  
+    // Retourner la date formatée
+    return `${formattedDay}/${formattedMonth}/${year}`;
+  }
+  
+  // Exemple d'utilisation
+  const myDate = new Date(); // Remplacez cela par votre objet Date
+  const formattedDate = formatDate(myDate);
+  console.log(formattedDate);
+  
+
+  
+
   const { handleSubmit, control, register, setValue, watch } = useForm();
 
   const clientName = watch('clientName', '');
@@ -28,6 +55,7 @@ const MyForm = () => {
 
   const pieces = roomsData.map((room) => ({
     name: room.name,
+    title: room.title,
     sol: {},
     meubles: {},
     plafond: {},
@@ -36,15 +64,47 @@ const MyForm = () => {
   
   console.log(pieces)
 
-  const changeColorButton = (room, label, category) => {
-    setButtonColors((prevColors) => ({
-      ...prevColors,
-      [`${room.name}-${category}`]: label.label,
-    }));  
-   } 
-  
-  const handleButtonClick = (room, label, category) => {
-    console.log(label)
+  const getCategoryName = (category) => {
+    switch (category) {
+      case 'Revêtements des sols':
+        return 'sol';
+      case 'Meubles / Menuiseries':
+        return 'meubles';
+      case 'Plafonds':
+        return 'plafond';
+      case 'Eléctricité / Plomberie':
+        return 'electricity';
+      default:
+        return '';
+    }
+  };
+
+  const getButtonStyle = (room, category, option) => {
+    const pieceIndex = pieces.findIndex((piece) => piece.name === room.name);
+
+    if (pieceIndex !== -1) {
+      const categoryName = getCategoryName(category);
+      const currentOption = pieces[pieceIndex][categoryName];
+
+      
+      console.log("Current Option:", pieces[piecesIndex]);
+
+      return {
+        backgroundColor: currentOption && currentOption.label === option.label ? option.color : 'initial',
+        color: currentOption && currentOption.label === option.label ? 'white' : 'initial',
+      };
+    }
+
+    return {};
+  };
+
+  useEffect(()=> {
+    
+   },[getButtonStyle])
+
+  const handleButtonClick = (room, option, category) => {
+
+    console.log(option)
     const pieceIndex = pieces.findIndex((piece) => piece.name === room.name);
 
     let categoryName = '';
@@ -66,16 +126,14 @@ const MyForm = () => {
         break;
     }
 
-    console.log(categoryName)
-    console.log(pieces)
-
     if (pieceIndex !== -1) {
       pieces[pieceIndex][categoryName] = {
-        label: label.label,
-        color: label.color,
+        label: option.label,
+        color: option.color,
         comment: ""
-      };
-    }
+
+      };  
+    }  
   };
 
   const clientSignatureChange = (signatureData) => {
@@ -90,7 +148,7 @@ const MyForm = () => {
     const openAudit = {
       name: data.clientName,
       firstname: data.clientFirstName,
-      date: new Date(),
+      date: formattedDate,
       departure: "à définir",
       address: data.clientAddress,
       pieces: pieces,
@@ -148,20 +206,15 @@ const MyForm = () => {
               <p className={styles.label}>{category}</p>
               <div className={styles.labelBox}>
                {criteriaOptions.map((option) => (
-                  <button
-                    type='button'
-                    key={option.label}
-                    className={styles.button}
-                    style={{
-                      backgroundColor: buttonColors[`${room.name}-${category}`] === option.label ? option.color : 'initial',
-                      color: buttonColors[`${room.name}-${category}`] === option.label ? 'white' : 'initial',
-                    }}
-                    onClick={() => {
-                      handleButtonClick(room, option, category);                    
-                    }} 
-                  >
-                    {option.label}
-                  </button>
+                <button
+                  type='button'
+                  key={option.label}
+                  className={option.color === "red" ? styles.red: styles.button }
+                 
+                  onClick={() => handleButtonClick(room, option, category)}
+                >
+                  {option.label}
+                </button>
                 ))}
               </div>
             </div>
