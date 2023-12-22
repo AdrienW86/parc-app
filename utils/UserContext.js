@@ -11,34 +11,7 @@ export const UserProvider = ({ children }) => {
     setUser(newUserData);
   };
 
-  const login = async (credentials) => {
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
-
-      if (response.ok) {
-        const { token } = await response.json();
-
-        // Stocker le token dans le contexte
-        localStorage.setItem('token');
-
-        // Mettre à jour l'utilisateur dans le contexte si nécessaire
-        updateUser({ token });
-
-        // Rediriger ou effectuer d'autres actions nécessaires
-      } else {
-        const errorMessage = await response.text();
-        console.error('Login error:', errorMessage);
-      }
-    } catch (error) {
-      console.error('Error logging in:', error.message);
-    }
-  };
+  
 
   const fetchUserData = async () => {
     try {
@@ -72,7 +45,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, userAddress, updateUser, fetchUserData, login }}>
+    <UserContext.Provider value={{ user, userAddress, updateUser, fetchUserData }}>
       {children}
     </UserContext.Provider>
   );

@@ -5,11 +5,49 @@
 }
 
 .audit {
+    position: relative;
     margin: 20px 0;
     padding: 6px;
     min-width: 300px;
     max-width: 600px;
     border: 1px solid black
+}
+
+.boxBtn {
+    position: absolute;
+    right: 10px;
+}
+
+.download, .close {
+    width: 80px;
+    padding: 2px;
+    font-size: 0.7em;
+    font-weight: bold;
+    transition: .4s ease-in-out;
+    background-color: white;
+}
+
+.download {
+    color: green;
+    border: 1px solid green;
+}
+
+.close {
+    color: red;
+    border: 1px solid red;
+    margin-left: 10px;
+}
+
+.download:hover {
+    cursor: pointer;
+    color: white;
+    background-color: green;
+}
+
+.close:hover {
+    cursor: pointer;
+    color: white;
+    background-color: red;
 }
 
 .h1, .h2, .h3, .h4 {

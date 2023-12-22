@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUser } from '@/utils/UserContext';
+import { downloadPDF } from '@/utils/generatepdf';
 import styles from '@/styles/audit.module.css';
+
+
 
 export default function OpenAuditsId() {
   const router = useRouter();
@@ -9,28 +12,38 @@ export default function OpenAuditsId() {
   const userId = parseInt(id, 10);
 
   const { user, fetchUserData } = useUser();
-
   const [audit, setAudit] = useState(null);
-
-
   const [signatureImage, setSignatureImage] = useState('');
   const [signatureImage2, setSignatureImage2] = useState('');
+
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   useEffect(() => {
     fetchUserData();
     if (userId !== undefined && user && user.openAudit && user.openAudit[userId]) {
       setAudit(user.openAudit[userId]);
-      // Utilisez directement la signatureImage ici
       setSignatureImage(user.openAudit[userId].userSignature);
       setSignatureImage2(user.openAudit[userId].clientSignature);
     }
-  }, [userId, user]);
+  }, [userId]);
   
-
   return (
-    <section className={styles.container}>
+    <section className={styles.container} id="pdf-container">
       {audit && (
         <div className={styles.audit}>
+          <div className={styles.boxBtn}>
+            <button onClick={()=> downloadPDF(audit)} className={styles.download}> Télécharger </button>
+            <button className={styles.close}> Clôturer </button>
+          </div>
           <h1 className={styles.h1}>Etat des lieux</h1>
             <div className={styles.boxDate}>
               <p className={styles.date}>Entrée, réalisée le : {audit.date}</p>
@@ -38,8 +51,7 @@ export default function OpenAuditsId() {
             </div>
           <h2 className={styles.h2}>Les locaux</h2>
           <p className={styles.p}>
-            Adresse du bien: {' '}
-           
+            Adresse du bien: {' '}           
           </p>
           <section className={styles.adress}>
             <div className={styles.people  }>
@@ -117,8 +129,7 @@ export default function OpenAuditsId() {
               <p className={styles.p2}> Signature précédée de votre nom, prénom et « certifié exact » </p>
               {signatureImage && <img className={styles.clientSignature} src={signatureImage2} alt="Signature" />}
               <div className={styles.boxDate}>
-                <p className={styles.p}>Entrée, le : {audit.date} </p>
-               
+                <p className={styles.p}>Entrée, le : {audit.date} </p>              
                 {/* <p className={styles.p}>Sortie, le : {audit.departure}</p> */}
               </div>
               <div className={styles.signature}></div>
