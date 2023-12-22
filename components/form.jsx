@@ -6,43 +6,60 @@ import styles from '@/styles/form.module.css';
 
 const criteriaOptions = [
   { label: 'Très bon', color: 'green' },
-  { label: 'Bon', color: 'yellowgreen' },
+  { label: 'Bon', color: 'blue' },
   { label: 'Correct', color: 'orange' },
   { label: 'Mauvais', color: 'red' },
 ];
 
 const MyForm = () => {
 
-
   function formatDate(date) {
-    // Vérifier si la date est une chaîne de caractères, si c'est le cas, la convertir en objet Date
     if (!(date instanceof Date)) {
       date = new Date(date);
     }
   
-    // Obtenir les composants de la date
     const day = date.getDate();
-    const month = date.getMonth() + 1; // Les mois commencent à 0, donc ajoutez 1
-    const year = date.getFullYear();
-  
-    // Ajouter un zéro devant le jour et le mois si nécessaire
+    const month = date.getMonth() + 1; 
+    const year = date.getFullYear(); 
     const formattedDay = day < 10 ? `0${day}` : day;
     const formattedMonth = month < 10 ? `0${month}` : month;
   
-    // Retourner la date formatée
     return `${formattedDay}/${formattedMonth}/${year}`;
   }
   
-  // Exemple d'utilisation
-  const myDate = new Date(); // Remplacez cela par votre objet Date
+  const myDate = new Date(); 
   const formattedDate = formatDate(myDate);
-  console.log(formattedDate);
   
-
+  const selectOption = (event) => {
+    const buttonElement = event.target;
+    const text = event.target.textContent;
+    const parentElement = buttonElement.parentElement;
   
+    const buttonsInParent = parentElement.querySelectorAll(`.${styles.button}`);
+    buttonsInParent.forEach((button) => {
+      button.classList.remove(styles.green, styles.blue, styles.orange, styles.red);
+    });
+  
+    if (text === "Très bon") {
+      buttonElement.classList.toggle(styles.green);
+    }
+    if (text === "Bon") {
+      buttonElement.classList.toggle(styles.blue);
+    }
+    if (text === "Correct") {
+      buttonElement.classList.toggle(styles.orange);
+    }
+    if (text === "Mauvais") {
+      buttonElement.classList.toggle(styles.red);
+    }
+  };
+  
+  const clickedLabel = (room, option, category) => {   
+    handleButtonClick(room, option, category)    
+    selectOption(event)  
+  }
 
   const { handleSubmit, control, register, setValue, watch } = useForm();
-
   const clientName = watch('clientName', '');
   const clientFirstName = watch('clientFirstName', '');
   const clientAddress = watch(['clientAddress', 'number', 'street', 'city', 'zipcode', 'country'], {
@@ -64,47 +81,7 @@ const MyForm = () => {
   
   console.log(pieces)
 
-  const getCategoryName = (category) => {
-    switch (category) {
-      case 'Revêtements des sols':
-        return 'sol';
-      case 'Meubles / Menuiseries':
-        return 'meubles';
-      case 'Plafonds':
-        return 'plafond';
-      case 'Eléctricité / Plomberie':
-        return 'electricity';
-      default:
-        return '';
-    }
-  };
-
-  const getButtonStyle = (room, category, option) => {
-    const pieceIndex = pieces.findIndex((piece) => piece.name === room.name);
-
-    if (pieceIndex !== -1) {
-      const categoryName = getCategoryName(category);
-      const currentOption = pieces[pieceIndex][categoryName];
-
-      
-      console.log("Current Option:", pieces[piecesIndex]);
-
-      return {
-        backgroundColor: currentOption && currentOption.label === option.label ? option.color : 'initial',
-        color: currentOption && currentOption.label === option.label ? 'white' : 'initial',
-      };
-    }
-
-    return {};
-  };
-
-  useEffect(()=> {
-    
-   },[getButtonStyle])
-
   const handleButtonClick = (room, option, category) => {
-
-    console.log(option)
     const pieceIndex = pieces.findIndex((piece) => piece.name === room.name);
 
     let categoryName = '';
@@ -132,8 +109,14 @@ const MyForm = () => {
         color: option.color,
         comment: ""
 
-      };  
+      };    
     }  
+    console.log(pieces[pieceIndex][categoryName])
+    console.log(option)
+    console.log(categoryName)
+    console.log(room)
+    console.log(pieces)
+
   };
 
   const clientSignatureChange = (signatureData) => {
@@ -198,8 +181,8 @@ const MyForm = () => {
           <input {...register('clientAddress.country', { required: true })} className={styles.country} type='text' placeholder='Pays' value={clientAddress.country} />
         </section>
       </div>
-      {roomsData.map((room) => (
-        <div key={room.name} className={styles.room}>
+      {roomsData.map((room, index) => (
+        <div key={index} className={styles.room}>
           <h3 className={styles.h3}>{room.title}</h3>
           {room.label.map((category) => (
             <div key={category} className={styles.category}>
@@ -209,9 +192,10 @@ const MyForm = () => {
                 <button
                   type='button'
                   key={option.label}
-                  className={option.color === "red" ? styles.red: styles.button }
-                 
-                  onClick={() => handleButtonClick(room, option, category)}
+                  className={option.label ? styles.button :styles[option.color]  }             
+                  onClick={() => {
+                    clickedLabel(room, option, category);                  
+                  }}
                 >
                   {option.label}
                 </button>
@@ -249,5 +233,4 @@ const MyForm = () => {
     </form>
   );
 }
-
 export default MyForm;

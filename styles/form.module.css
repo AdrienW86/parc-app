@@ -103,9 +103,11 @@
     width: 65px;
     height: 35px;
     border: none;
+    color: black;
     transition: .4s ease-in-out;
     border-radius: 4px;
     padding: 4px;
+    background-color: white;
     border: 1px solid black;
 }
 

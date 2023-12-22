@@ -4,8 +4,6 @@ import { useUser } from '@/utils/UserContext';
 import { downloadPDF } from '@/utils/generatepdf';
 import styles from '@/styles/audit.module.css';
 
-
-
 export default function OpenAuditsId() {
   const router = useRouter();
   const { id } = router.query;
@@ -15,17 +13,6 @@ export default function OpenAuditsId() {
   const [audit, setAudit] = useState(null);
   const [signatureImage, setSignatureImage] = useState('');
   const [signatureImage2, setSignatureImage2] = useState('');
-
- 
-  
-  
-  
-  
-  
-  
-  
-  
-  
 
   useEffect(() => {
     fetchUserData();
