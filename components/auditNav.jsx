@@ -5,12 +5,15 @@ import { useUser } from '@/utils/UserContext';
 
 export default function AuditNav() {
   const router = useRouter();
+  const { id } = router.query;
+  const userId = parseInt(id, 10);
+
   const { user, fetchUserData } = useUser();
-  const [audit, setAudit] = useState(null);
-  const [auditClosed, setAuditClosed] = useState(null);
   const [listTitle, setListTitle] = useState("Audits en cours");
   const [openAudit, setOpenAudit] = useState(true);
   const [closeAudit, setCloseAudit] = useState(false);
+
+  console.log(user)
 
   const createAudit = () => {
     router.push('/audit/create');
@@ -27,8 +30,7 @@ export default function AuditNav() {
     setOpenAudit(false);
     setCloseAudit(true);
   };
-
-  
+ 
   const showOneClosedAudit = (index) => {
     router.push(`/audit/closed/[closedAuditId]?id=${index}`);
   };
@@ -37,28 +39,40 @@ export default function AuditNav() {
     router.push(`/audit/opened/[openAuditId]?id=${index}`);
   };
 
-  useEffect(() => {
-    console.log('Executing useEffect');
-    const fetchData = async () => {
-      try {
-        console.log('Fetching user data...');
-        await fetchUserData();
-        console.log('User data fetched:', user);
-        setAudit(user.openAudit || null);
-        setAuditClosed(user.closeAudit || null);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-  
-    fetchData();
-  }, []);
-  
+  const deleteOneOpenAudit = async (index) => {
+    const confirmDelete = window.confirm(`Êtes-vous sûr de vouloir supprimer cette facture ?` );        
+    if (confirmDelete) {
+      const token = localStorage.getItem('token');
+        try { 
+          const response = await fetch(`/api/delete-open?openId=${index}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response.ok) {
+           window.location.reload()
+          } else {
+            console.error('Error deleting invoice:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error deleting invoice:', error.message);
+        }
+    }
+  };
 
+  useEffect(() => {
+    fetchUserData();
+    if (userId !== undefined && user && user.openAudit && user.openAudit[userId]) {
+    }
+   
+  }, [userId]);
+  
+  
   return (
-    <>
-      {user && audit && (
-        <div>
+    <>    
+      <div>
           <section className={styles.btnContainer}>
             <button className={styles.btn} onClick={createAudit}>
               Créer un audit
@@ -75,11 +89,11 @@ export default function AuditNav() {
             <h3 className={closeAudit ? styles.close : styles.open}>{listTitle}</h3>
             {openAudit && (
               <div>
-                {audit === null ? (
+                {user === null ? (
                   <div className={styles.empty}> Vous n'avez aucun audit en cours.</div>
                 ) : (
-                  <div>
-                    {audit.map((el, index) => (
+                  <div className={styles.container}>
+                    {user.openAudit.map((el, index) => (
                       <div key={index} className={styles.openAudit}>
                         <p>
                           Nom: <span className={styles.span}> {el.name} </span>
@@ -90,9 +104,14 @@ export default function AuditNav() {
                         <p>
                           Arrivée: <span className={styles.spanDate}> {el.date} </span>
                         </p>
+                       <div> 
                         <button className={styles.showBtn} onClick={() => showOneOpenAudit(index)}>
-                          Voir
-                        </button>
+                            Voir
+                          </button>
+                          <button className={styles.deleteBtn} onClick={() => deleteOneOpenAudit(index)}>
+                            Supprimer
+                          </button>
+                       </div>
                       </div>
                     ))}
                   </div>
@@ -101,11 +120,16 @@ export default function AuditNav() {
             )}
             {closeAudit && (
               <div>
-                {auditClosed.length === 0 ? (
-                  <div className={styles.empty}> Vous n'avez aucun audit fermés.</div>
-                ) : (
-                  <div>
-                    {auditClosed.map((el, index) => (
+                {user === null ? (                 
+                  <div> Erreur lors du chargement de vos données</div>                
+                ) : (                  
+                  <section>
+                    {user.closeAudit.length === 0 
+                    ?
+                    <div className={styles.empty}> Vous n'avez aucun audit fermés.</div> 
+                    : 
+                    <div>
+                    {user.closeAudit.map((el, index) => (
                       <div key={index} className={styles.openAudit}>
                         <p>
                           Nom: <span className={styles.span}> {el.name} </span>
@@ -124,13 +148,13 @@ export default function AuditNav() {
                         </button>
                       </div>
                     ))}
-                  </div>
+                  </div>}
+                  </section>
                 )}
               </div>
             )}
           </section>
-        </div>
-      )}
+        </div>    
     </>
   );
 }

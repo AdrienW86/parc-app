@@ -2,12 +2,13 @@ import React, {useEffect, useState} from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { roomsData } from '@/utils/room';
 import { useRouter } from 'next/router';
+import { useUser } from '@/utils/UserContext';
 import Signature from '@/components/signature';
 import styles from '@/styles/form.module.css';
 
 const criteriaOptions = [
   { label: 'Très bon', color: 'green' },
-  { label: 'Bon', color: 'blue' },
+  { label: 'Bon', color: 'yellowgreen' },
   { label: 'Correct', color: 'orange' },
   { label: 'Mauvais', color: 'red' },
 ];
@@ -15,6 +16,16 @@ const criteriaOptions = [
 const MyForm = () => {
 
   const router = useRouter()
+  const { id } = router.query;
+  const userId = parseInt(id, 10);
+  const {user, fetchUserData } = useUser();
+ 
+  useEffect(() => {
+    fetchUserData();
+    if (userId !== undefined && user && user.openAudit && user.openAudit[userId]) {
+    }
+   
+  }, [userId]);
 
   function formatDate(date) {
     if (!(date instanceof Date)) {
@@ -59,20 +70,12 @@ const MyForm = () => {
   
   const clickedLabel = (room, option, category) => {   
    
+    console.log(option)
     handleButtonClick(room, option, category)    
     selectOption(event)  
   }
 
   const { handleSubmit, control, register, setValue, watch } = useForm();
-  const clientName = watch('clientName', '');
-  const clientFirstName = watch('clientFirstName', '');
-  const clientAddress = watch(['clientAddress', 'number', 'street', 'city', 'zipcode', 'country'], {
-    number: '',
-    street: '',
-    city: '',
-    zipcode: '',
-    country: '',
-  });
 
   const pieces = roomsData.map((room) => ({
     name: room.name,
@@ -82,8 +85,6 @@ const MyForm = () => {
     plafond: {},
     electricity: {}
   }));
-  
-  console.log(pieces)
 
   const handleButtonClick = (room, option, category) => {
     const pieceIndex = pieces.findIndex((piece) => piece.name === room.name);
@@ -113,7 +114,6 @@ const MyForm = () => {
         label: option.label,
         color: option.color,
         comment: ""
-
       };    
     }  
   };
@@ -127,26 +127,31 @@ const MyForm = () => {
   };
 
   const onSubmit = async (data) => {
-    const openAudit = {
-      name: data.clientName,
-      firstname: data.clientFirstName,
-      date: formattedDate,
-      departure: "à définir",
-      address: data.clientAddress,
+    const closeAudit = {
+      name:  user.openAudit[userId].name,
+      firstname: user.openAudit[userId].firstname,
+      departure: formattedDate,
+      date: user.openAudit[userId].date,
+      address: user.openAudit[userId].address,
       pieces: pieces,
+      prevPieces: user.openAudit[userId].pieces,
+      openUserSignature: user.openAudit[userId].userSignature,
+      openClientSignature: user.openAudit[userId].clientSignature,
       userSignature: data.userSignature,
       clientSignature: data.clientSignature
     };
 
+    console.log(closeAudit)
+
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('/api/save-openAudit', {
+      const response = await fetch('/api/save-closeAudit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(openAudit),
+        body: JSON.stringify(closeAudit),
       });
 
       if (!response.ok) {
@@ -157,34 +162,50 @@ const MyForm = () => {
     } catch (error) {
       console.error('Erreur lors de l\'enregistrement du PDF dans la base de données :', error);
     }
-    router.push('/audit')
+   // router.push('/audit')
+   console.log(closeAudit)
   };
 
+  
+
+  const label = [{ title:'Revêtements des sols', value: 'sol'}, { title:'Meubles / Menuiseries', value: 'meubles'}, { title:'Plafonds', value: 'plafond'}, { title:'Eléctricité / plomberie', value: 'electricity'}]
+  
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+  <>
+  {user &&  
+      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <div className={styles.container}>
         <section className={styles.bailleur}>
           <h2 className={styles.h2}>Nom du bailleur</h2>
-          <input {...register('clientName', { required: true })} className={styles.name} type='text' value={clientName} placeholder='Nom du bailleur' />
-          <input {...register('clientFirstName', { required: true })} className={styles.name} type='text' value={clientFirstName} placeholder='Prénom du bailleur' />
+          <p className={styles.name}> {user.openAudit[userId].name} {user.openAudit[userId].firstname} </p> 
+    
           <h2 className={styles.h2}>Adresse du bailleur</h2>
           <div>
-            <input {...register('clientAddress.number', { required: true })} className={styles.number} type='number' placeholder='Numéro' value={clientAddress.number} />
-            <input {...register('clientAddress.street', { required: true })} className={styles.street} type='text' placeholder='Nom de la voie' value={clientAddress.street} />
+            <p className={styles.number}> {user.openAudit[userId].address.number} </p> 
+            <p className={styles.street}> {user.openAudit[userId].address.street}</p>
           </div>
           <div>
-            <input {...register('clientAddress.zipcode', { required: true })} className={styles.zipcode} type='number' placeholder='Code postal' value={clientAddress.zipcode} />
-            <input {...register('clientAddress.city', { required: true })} className={styles.city} type='text' placeholder='Nom de la ville' value={clientAddress.city} />
+            <p className={styles.zipcode}> {user.openAudit[userId].address.zipcode} </p>
+            <p className={styles.city}> {user.openAudit[userId].address.city}</p>
           </div>
-          <input {...register('clientAddress.country', { required: true })} className={styles.country} type='text' placeholder='Pays' value={clientAddress.country} />
+          <p className={styles.country}> {user.openAudit[userId].address.country}</p>
         </section>
       </div>
       {roomsData.map((room, index) => (
         <div key={index} className={styles.room}>
           <h3 className={styles.h3}>{room.title}</h3>
-          {room.label.map((category) => (
-            <div key={category} className={styles.category}>
-              <p className={styles.label}>{category}</p>
+          {room.label.map((category, index) => (
+            <div key={index} className={styles.category} >
+               <div className={styles.label}>
+                {category.title} 
+                <span className={styles.spanLabel}>
+                  {category.title === "Revêtements des sols" ? <p style={{color: room.sol.color}} > ({room.sol.label}) </p>: null}
+                  {category.title === "Meubles / Menuiseries" ? <p style={{color: room.meubles.color}}> ({room.meubles.label}) </p>: null}
+                  {category.title === "Plafonds" ? <p style={{color: room.plafond.color}}> ({room.plafond.label}) </p>: null}
+                  {category.title === "Eléctricité / plomberie" ? <p style={{color: room.electricity.color}}> ({room.electricity.label}) </p>: null}
+                </span>
+              </div>            
               <div className={styles.labelBox}>
                {criteriaOptions.map((option) => (
                 <button
@@ -226,10 +247,12 @@ const MyForm = () => {
       <div>
         <h3 className={styles.h3}>Validation du formulaire</h3>
         <button className={styles.submit} type='submit'>
-          Soumettre
+          Clôturer
         </button>
       </div>
     </form>
+  }
+  </>
   );
 }
 export default MyForm;

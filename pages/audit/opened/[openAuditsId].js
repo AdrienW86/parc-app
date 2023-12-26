@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useUser } from '@/utils/UserContext';
 import { downloadPDF } from '@/utils/generatepdf';
@@ -10,53 +10,54 @@ export default function OpenAuditsId() {
   const userId = parseInt(id, 10);
 
   const { user, fetchUserData } = useUser();
-  const [audit, setAudit] = useState(null);
-  const [signatureImage, setSignatureImage] = useState('');
-  const [signatureImage2, setSignatureImage2] = useState('');
 
+  const closeAudit = () => {
+    router.push(`/audit/close/${userId}?id=${userId}`);
+  }
+  
   useEffect(() => {
     fetchUserData();
     if (userId !== undefined && user && user.openAudit && user.openAudit[userId]) {
-      setAudit(user.openAudit[userId]);
-      setSignatureImage(user.openAudit[userId].userSignature);
-      setSignatureImage2(user.openAudit[userId].clientSignature);
     }
+   
   }, [userId]);
+
+  console.log(user)
   
   return (
     <section className={styles.container} id="pdf-container">
-      {audit && (
+      {user && (
         <div className={styles.audit}>
           <div className={styles.boxBtn}>
-            <button onClick={()=> downloadPDF(audit)} className={styles.download}> Télécharger </button>
-            <button className={styles.close}> Clôturer </button>
+            <button onClick={()=> downloadPDF(user.openAudit[userId])} className={styles.download}> Télécharger </button>
+            <button onClick={()=> closeAudit(userId)} className={styles.close}> Clôturer </button>
           </div>
           <h1 className={styles.h1}>Etat des lieux</h1>
             <div className={styles.boxDate}>
-              <p className={styles.date}>Entrée, réalisée le : {audit.date}</p>
+              <p className={styles.date}>Entrée, réalisée le : {user.openAudit[userId].date}</p>
               {/* <p className={styles.date}>Sortie,  réalisée le : {audit.departure}</p> */}
             </div>
           <h2 className={styles.h2}>Les locaux</h2>
           <p className={styles.p}>
-            Adresse du bien: {' '}           
+            Adresse du bien: Adresse: 264 lieu-dit Goûts {' '}  47190 Aiguillon         
           </p>
           <section className={styles.adress}>
             <div className={styles.people  }>
               <h2 className={styles.h3}> Le bailleur</h2>
               <p className={styles.p}> Nom: Gutierrez François </p>
-              <p className={styles.p}> Adresse:  </p>
-              <p className={styles.p}>  </p>
+              <p className={styles.p}> Adresse: 264 lieu-dit Goûts </p>
+              <p className={styles.p}> 47190 Aiguillon </p>
             </div>
             <div className={styles.dash}> </div>
             <div className={styles.people}>
               <h2 className={styles.h3}> Le locataire</h2>
-              <p className={styles.p}> Nom: {audit.name} {audit.firstname}</p>
-              <p className={styles.p}> Adresse: {audit.address.number} {audit.address.street} </p>
-              <p className={styles.p}>{audit.address.zipcode}  {audit.address.city} {audit.address.country} </p>
+              <p className={styles.p}> Nom: {user.openAudit[userId].name} {user.openAudit[userId].firstname}</p>
+              <p className={styles.p}> Adresse: {user.openAudit[userId].address.number} {user.openAudit[userId].address.street} </p>
+              <p className={styles.p}> {user.openAudit[userId].address.zipcode}  {user.openAudit[userId].address.city} {user.openAudit[userId].address.country} </p>
             </div>
           </section>
           <section className={styles.list}>
-            {audit.pieces.map((el, index)=> (
+            {user.openAudit[userId].pieces.map((el, index)=> (
               <div key={index} className={styles.state }>
                 <h2 className={styles.h4}> {el.title} </h2>
                  <table className={styles.table}>
@@ -103,9 +104,9 @@ export default function OpenAuditsId() {
             <div className={styles.boxSign}>
               <h3 className={styles.h5}> Le bailleur </h3>
               <p className={styles.p2}> Signature précédée de « certifié exact »</p>
-              {signatureImage && <img className={styles.userSignature} src={signatureImage} alt="Signature" />}
+              {user.openAudit[userId].userSignature && <img className={styles.userSignature} src={user.openAudit[userId].userSignature} alt="Signature" />}
               <div className={styles.boxDate}>
-                <p className={styles.p}>Entrée, le : {audit.date}</p>
+                <p className={styles.p}>Entrée, le : {user.openAudit[userId].date}</p>
                 {/* <p className={styles.p}>Sortie, le : {audit.departure}</p> */}
               </div>
               <div className={styles.signature}></div>
@@ -114,9 +115,9 @@ export default function OpenAuditsId() {
             <div className={styles.boxSign2}>
               <h3 className={styles.h5}> Le locataire </h3>
               <p className={styles.p2}> Signature précédée de votre nom, prénom et « certifié exact » </p>
-              {signatureImage && <img className={styles.clientSignature} src={signatureImage2} alt="Signature" />}
+              {user.openAudit[userId].clientSignature && <img className={styles.clientSignature} src={user.openAudit[userId].clientSignature} alt="Signature" />}
               <div className={styles.boxDate}>
-                <p className={styles.p}>Entrée, le : {audit.date} </p>              
+                <p className={styles.p}>Entrée, le : {user.openAudit[userId].date} </p>              
                 {/* <p className={styles.p}>Sortie, le : {audit.departure}</p> */}
               </div>
               <div className={styles.signature}></div>

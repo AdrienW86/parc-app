@@ -1,3 +1,8 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
 .btnContainer {
     margin-top: 120px;
     display: flex;
@@ -58,6 +63,7 @@
     flex-direction: column;
     justify-content: space-between;
     border: 1px solid black;
+    border-radius: 8px;
     width: 250px;
     height: 140px;
     margin: 20px auto;
@@ -79,19 +85,30 @@
     color: red
 }
 
-.showBtn {
+.showBtn, .deleteBtn {
     margin: 0 auto;
     width: 80px;
+    height: 30px;
     color: #004AAD;
     font-weight: bold;
     border-radius: 8px;
     border: 2px solid #004AAD;
     background: white;
     transition: .4s ease-in-out;
+    margin: 10px;
 }
 
-.showBtn:hover {
+.showBtn:hover, .deleteBtn:hover {
     cursor: pointer;
     color: white;
     background-color: #004AAD;
+}
+
+.deleteBtn {
+    color: red;
+    border: 2px solid red;
+}
+
+.deleteBtn:hover {
+    background-color: red;
 }

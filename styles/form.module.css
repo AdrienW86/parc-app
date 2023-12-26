@@ -83,7 +83,9 @@
 
 .label {
     font-weight: bold;
-    margin: 8px 0
+    margin: 8px 0;
+    display: flex;
+    justify-content: center;
 }
 
 .labelBox {
@@ -173,4 +175,10 @@
     cursor: pointer;
     color: white;
     background-color: green;
+}
+
+.spanLabel {
+    display: flex;
+    margin: 0 0 0 5px;
+    height: 0
 }

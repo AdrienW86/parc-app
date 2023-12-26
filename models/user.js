@@ -39,8 +39,11 @@ const auditSchema = new mongoose.Schema({
   departure: String,
   userSignature: String,
   clientSignature: String,
+  openUserSignature: String,
+  openClientSignature: String,
   address: addressSchema,
   pieces: [pieceSchema],
+  prevPieces: [pieceSchema],
 
 });
 
