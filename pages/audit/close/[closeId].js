@@ -86,8 +86,9 @@ const MyForm = () => {
 
   const handleButtonClick = (room, option, category) => {
     console.log(room)
-    console.log(category.title)
-    console.log(option.label)
+    console.log(category)
+    console.log(option)
+    console.log(option.color)
     const pieceIndex = pieces.findIndex((piece) => piece.name === room.name);
     console.log(pieceIndex)
     let categoryName = '';
@@ -191,7 +192,7 @@ const MyForm = () => {
    // deleteOneOpenAudit(userId)
   //  router.push('/audit')
   };
-  const label = [{ title:'Revêtements des sols', value: 'sol'}, { title:'Meubles / Menuiseries', value: 'meubles'}, { title:'Plafonds', value: 'plafond'}, { title:'Eléctricité / plomberie', value: 'electricity'}]
+  const label = ['Revêtements des sols','Meubles / Menuiseries','Plafonds','Eléctricité / plomberie']
   
 
   return (
@@ -215,18 +216,18 @@ const MyForm = () => {
           <p className={styles.country}> {user.openAudit[userId].address.country}</p>
         </section>
       </div>
-      {roomsData.map((room, index) => (
+      {user.openAudit[userId].pieces.map((room, index) => (
         <div key={index} className={styles.room}>
           <h3 className={styles.h3}>{room.title}</h3>
-          {room.label.map((category, index) => (
+          {label.map((category, index) => (
             <div key={index} className={styles.category} >
                <div className={styles.label}>
                 {category} 
                 <span className={styles.spanLabel}>
-                  {category.title === "Revêtements des sols" ? <p style={{color: room.sol.color}} > ({room.sol.label}) </p>: null}
-                  {category.title === "Meubles / Menuiseries" ? <p style={{color: room.meubles.color}}> ({room.meubles.label}) </p>: null}
-                  {category.title === "Plafonds" ? <p style={{color: room.plafond.color}}> ({room.plafond.label}) </p>: null}
-                  {category.title === "Eléctricité / plomberie" ? <p style={{color: room.electricity.color}}> ({room.electricity.label}) </p>: null}
+                  {category === "Revêtements des sols" ? <p style={{color: room.sol.color}} > ({room.sol.label}) </p>: null}
+                  {category === "Meubles / Menuiseries" ? <p style={{color: room.meubles.color}}> ({room.meubles.label}) </p>: null}
+                  {category === "Plafonds" ? <p style={{color: room.plafond.color}}> ({room.plafond.label}) </p>: null}
+                  {category === "Eléctricité / plomberie" ? <p style={{color: room.electricity.color}}> ({room.electricity.label}) </p>: null}
                 </span>
               </div>            
               <div className={styles.labelBox}>
