@@ -109,7 +109,6 @@ const MyForm = () => {
         label: option.label,
         color: option.color,
         comment: ""
-
       };    
     }  
   };

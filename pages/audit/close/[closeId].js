@@ -85,7 +85,11 @@ const MyForm = () => {
   }));
 
   const handleButtonClick = (room, option, category) => {
+    console.log(room)
+    console.log(category.title)
+    console.log(option.label)
     const pieceIndex = pieces.findIndex((piece) => piece.name === room.name);
+    console.log(pieceIndex)
     let categoryName = '';
 
     switch (category) {
@@ -147,6 +151,7 @@ const MyForm = () => {
   };
 
   const onSubmit = async (data) => {
+    console.log(pieces)
     console.log(data)
     const closeAudit = {
       name:  user.openAudit[userId].name,
@@ -183,8 +188,8 @@ const MyForm = () => {
       console.error('Erreur lors de l\'enregistrement du PDF dans la base de données :', error);
     }
 
-    deleteOneOpenAudit(userId)
-    router.push('/audit')
+   // deleteOneOpenAudit(userId)
+  //  router.push('/audit')
   };
   const label = [{ title:'Revêtements des sols', value: 'sol'}, { title:'Meubles / Menuiseries', value: 'meubles'}, { title:'Plafonds', value: 'plafond'}, { title:'Eléctricité / plomberie', value: 'electricity'}]
   
@@ -210,13 +215,13 @@ const MyForm = () => {
           <p className={styles.country}> {user.openAudit[userId].address.country}</p>
         </section>
       </div>
-      {user.openAudit[userId].pieces.map((room, index) => (
+      {roomsData.map((room, index) => (
         <div key={index} className={styles.room}>
           <h3 className={styles.h3}>{room.title}</h3>
-          {label.map((category, index) => (
+          {room.label.map((category, index) => (
             <div key={index} className={styles.category} >
                <div className={styles.label}>
-                {category.title} 
+                {category} 
                 <span className={styles.spanLabel}>
                   {category.title === "Revêtements des sols" ? <p style={{color: room.sol.color}} > ({room.sol.label}) </p>: null}
                   {category.title === "Meubles / Menuiseries" ? <p style={{color: room.meubles.color}}> ({room.meubles.label}) </p>: null}
