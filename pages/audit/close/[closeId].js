@@ -69,8 +69,6 @@ const MyForm = () => {
   };
   
   const clickedLabel = (room, option, category) => {   
-   
-    console.log(option)
     handleButtonClick(room, option, category)    
     selectOption(event)  
   }
@@ -88,8 +86,6 @@ const MyForm = () => {
 
   const handleButtonClick = (room, option, category) => {
     const pieceIndex = pieces.findIndex((piece) => piece.name === room.name);
-
-    console.log(category)
     let categoryName = '';
 
     switch (category) {
@@ -141,8 +137,6 @@ const MyForm = () => {
       clientSignature: data.clientSignature
     };
 
-    console.log(closeAudit)
-
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('/api/save-closeAudit', {
@@ -157,20 +151,13 @@ const MyForm = () => {
       if (!response.ok) {
         throw new Error('Échec de la requête pour enregistrer le PDF dans la base de données.');
       }
-
       const responseData = await response.json();
     } catch (error) {
       console.error('Erreur lors de l\'enregistrement du PDF dans la base de données :', error);
     }
-   // router.push('/audit')
-   console.log(closeAudit)
+    router.push('/audit')
   };
-
   
-
-  const label = [{ title:'Revêtements des sols', value: 'sol'}, { title:'Meubles / Menuiseries', value: 'meubles'}, { title:'Plafonds', value: 'plafond'}, { title:'Eléctricité / plomberie', value: 'electricity'}]
-  
-
   return (
   <>
   {user &&  

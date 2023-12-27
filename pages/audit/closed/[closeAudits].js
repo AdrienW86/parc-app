@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useUser } from '@/utils/UserContext';
+import { generateCloseAudit} from '@/utils/generateCloseAudit'
 import styles from '@/styles/audit.module.css';
 
 export default function ClosedAuditsId() {
@@ -8,7 +9,6 @@ export default function ClosedAuditsId() {
   const { id } = router.query;
   const userId = parseInt(id, 10);
   const {user, fetchUserData } = useUser();
-
 
   useEffect(() => {
     fetchUserData();
@@ -18,9 +18,11 @@ export default function ClosedAuditsId() {
   }, [userId]);
 
   const data = [];
+  let newAudit = []
 
   if (user) {
     console.log(user.closeAudit[userId].prevPieces);
+    
     user.closeAudit[userId].prevPieces.forEach((el, index) => {
       console.log(el.sol.label);
       data.push({
@@ -43,16 +45,31 @@ export default function ClosedAuditsId() {
         },
       });
     });
+
+    const addToData = {
+      name: user.closeAudit[userId].name,
+      firstname: user.closeAudit[userId].firstname,
+      date: user.closeAudit[userId].date,
+      departure: user.closeAudit[userId].departure,
+      address: user.closeAudit[userId].address,
+      pieces: data,
+      userSignature: user.closeAudit[userId].userSignature,
+      clientSignature: user.closeAudit[userId].clientSignature,
+      openUserSignature: user.closeAudit[userId].openUserSignature,
+      openClientSignature: user.closeAudit[userId].openClientSignature,
+    }
+      newAudit = {
+        ...addToData,
+      }
   }
   
-  // Maintenant, "data" contient un tableau d'objets avec les propriétés date et departure pour chaque type.
-  console.log(data);
-  
-
   return (
     <section className={styles.container}>
       {user && (
         <div className={styles.audit}>
+           <div className={styles.boxBtn}>
+            <button onClick={()=> generateCloseAudit(newAudit)} className={styles.download}> Télécharger </button>
+          </div>
           <h1 className={styles.h1}>Etat des lieux</h1>
             <div className={styles.boxDate}>
               <p className={styles.date}>Entrée, réalisée le : {user.closeAudit[userId].date}</p>
@@ -125,8 +142,7 @@ export default function ClosedAuditsId() {
           <div className={styles.sign}>
             <div className={styles.boxSign}>
               <h3 className={styles.h5}> Le bailleur </h3>
-              <p className={styles.p2}> Signature précédée de « certifié exact »</p>
-             
+              <p className={styles.p2}> Signature précédée de « certifié exact »</p>            
               <div className={styles.boxDate}>
                 <p className={styles.p}>Entrée, le : {user.closeAudit[userId].date}</p>
                 {user.closeAudit[userId].userSignature && <img className={styles.userSignature} src={user.closeAudit[userId].userSignature} alt="Signature" />}
@@ -138,8 +154,7 @@ export default function ClosedAuditsId() {
             <div className={styles.dash}></div>                 
             <div className={styles.boxSign2}>
               <h3 className={styles.h5}> Le locataire </h3>
-              <p className={styles.p2}> Signature précédée de votre nom, prénom et « certifié exact » </p>
-             
+              <p className={styles.p2}> Signature précédée de votre nom, prénom et « certifié exact » </p>             
               <div className={styles.boxDate}>
                 <p className={styles.p}>Entrée, le : {user.closeAudit[userId].date}</p>
                 {user.closeAudit[userId].clientSignature && <img className={styles.clientSignature} src={user.closeAudit[userId].clientSignature} alt="Signature" />}
