@@ -189,8 +189,8 @@ const MyForm = () => {
       console.error('Erreur lors de l\'enregistrement du PDF dans la base de données :', error);
     }
 
-   // deleteOneOpenAudit(userId)
-  //  router.push('/audit')
+    deleteOneOpenAudit(userId)
+    router.push('/audit')
   };
   const label = ['Revêtements des sols','Meubles / Menuiseries','Plafonds','Eléctricité / plomberie']
   
