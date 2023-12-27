@@ -8,7 +8,6 @@ export default function OpenAuditsId() {
   const router = useRouter();
   const { id } = router.query;
   const userId = parseInt(id, 10);
-
   const { user, fetchUserData } = useUser();
 
   const closeAudit = () => {
@@ -21,8 +20,6 @@ export default function OpenAuditsId() {
     }
    
   }, [userId]);
-
-  console.log(user)
   
   return (
     <section className={styles.container} id="pdf-container">

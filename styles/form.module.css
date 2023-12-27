@@ -113,7 +113,7 @@
     border: 1px solid black;
 }
 
-.green, .blue, .orange, .red {
+.green, .yellowgreen, .orange, .red {
     color: white;
     transition: .4s ease-in;
 }
@@ -122,7 +122,7 @@
     cursor: pointer; 
 }
 
-.green:hover, .blue:hover, .orange:hover, .red:hover {
+.green:hover, .yellowgreen:hover, .orange:hover, .red:hover {
     color: white;
     cursor: pointer;
 }
@@ -131,7 +131,7 @@
     background-color: green
 }
 
-.blue {
+.yellowgreen {
     background-color: yellowgreen;
 }
 

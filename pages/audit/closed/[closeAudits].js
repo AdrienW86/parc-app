@@ -21,10 +21,8 @@ export default function ClosedAuditsId() {
   let newAudit = []
 
   if (user) {
-    console.log(user.closeAudit[userId].prevPieces);
     
     user.closeAudit[userId].prevPieces.forEach((el, index) => {
-      console.log(el.sol.label);
       data.push({
         title: el.title,
         sol: {
@@ -62,6 +60,8 @@ export default function ClosedAuditsId() {
         ...addToData,
       }
   }
+
+  console.log(data)
   
   return (
     <section className={styles.container}>

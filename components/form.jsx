@@ -7,7 +7,7 @@ import styles from '@/styles/form.module.css';
 
 const criteriaOptions = [
   { label: 'Très bon', color: 'green' },
-  { label: 'Bon', color: 'blue' },
+  { label: 'Bon', color: 'yellowgreen' },
   { label: 'Correct', color: 'orange' },
   { label: 'Mauvais', color: 'red' },
 ];
@@ -40,14 +40,14 @@ const MyForm = () => {
   
     const buttonsInParent = parentElement.querySelectorAll(`.${styles.button}`);
     buttonsInParent.forEach((button) => {
-      button.classList.remove(styles.green, styles.blue, styles.orange, styles.red);
+      button.classList.remove(styles.green, styles.yellowgreen, styles.orange, styles.red);
     });
   
     if (text === "Très bon") {
       buttonElement.classList.toggle(styles.green);
     }
     if (text === "Bon") {
-      buttonElement.classList.toggle(styles.blue);
+      buttonElement.classList.toggle(styles.yellowgreen);
     }
     if (text === "Correct") {
       buttonElement.classList.toggle(styles.orange);
@@ -82,13 +82,9 @@ const MyForm = () => {
     plafond: {},
     electricity: {}
   }));
-  
-  console.log(pieces)
 
   const handleButtonClick = (room, option, category) => {
     const pieceIndex = pieces.findIndex((piece) => piece.name === room.name);
-
-    console.log(category)
     let categoryName = '';
 
     switch (category) {

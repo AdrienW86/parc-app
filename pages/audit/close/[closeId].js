@@ -51,14 +51,14 @@ const MyForm = () => {
   
     const buttonsInParent = parentElement.querySelectorAll(`.${styles.button}`);
     buttonsInParent.forEach((button) => {
-      button.classList.remove(styles.green, styles.blue, styles.orange, styles.red);
+      button.classList.remove(styles.green, styles.yellowgreen, styles.orange, styles.red);
     });
   
     if (text === "Très bon") {
       buttonElement.classList.toggle(styles.green);
     }
     if (text === "Bon") {
-      buttonElement.classList.toggle(styles.blue);
+      buttonElement.classList.toggle(styles.yellowgreen);
     }
     if (text === "Correct") {
       buttonElement.classList.toggle(styles.orange);
@@ -122,7 +122,32 @@ const MyForm = () => {
     setValue('userSignature', signatureData);
   };
 
+
+  const deleteOneOpenAudit = async (index) => {
+    const confirmDelete = window.confirm(`Êtes-vous sûr de vouloir clôturer cet audit ?` );        
+    if (confirmDelete) {
+      const token = localStorage.getItem('token');
+        try { 
+          const response = await fetch(`/api/delete-open?openId=${index}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response.ok) {
+           window.location.reload()
+          } else {
+            console.error('Error deleting invoice:', response.statusText);
+          }
+        } catch (error) {
+          console.error('Error deleting invoice:', error.message);
+        }
+    }
+  };
+
   const onSubmit = async (data) => {
+    console.log(data)
     const closeAudit = {
       name:  user.openAudit[userId].name,
       firstname: user.openAudit[userId].firstname,
@@ -136,6 +161,8 @@ const MyForm = () => {
       userSignature: data.userSignature,
       clientSignature: data.clientSignature
     };
+
+    console.log(closeAudit)
 
     try {
       const token = localStorage.getItem('token');
@@ -155,9 +182,13 @@ const MyForm = () => {
     } catch (error) {
       console.error('Erreur lors de l\'enregistrement du PDF dans la base de données :', error);
     }
+
+    deleteOneOpenAudit(userId)
     router.push('/audit')
   };
+  const label = [{ title:'Revêtements des sols', value: 'sol'}, { title:'Meubles / Menuiseries', value: 'meubles'}, { title:'Plafonds', value: 'plafond'}, { title:'Eléctricité / plomberie', value: 'electricity'}]
   
+
   return (
   <>
   {user &&  
@@ -179,10 +210,10 @@ const MyForm = () => {
           <p className={styles.country}> {user.openAudit[userId].address.country}</p>
         </section>
       </div>
-      {roomsData.map((room, index) => (
+      {user.openAudit[userId].pieces.map((room, index) => (
         <div key={index} className={styles.room}>
           <h3 className={styles.h3}>{room.title}</h3>
-          {room.label.map((category, index) => (
+          {label.map((category, index) => (
             <div key={index} className={styles.category} >
                <div className={styles.label}>
                 {category.title} 
