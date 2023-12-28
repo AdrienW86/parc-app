@@ -7,7 +7,7 @@ export default function Home() {
     <>
         <div className={styles.background}></div>         
         <h2> Connectez vous</h2>
-        <Login />        
+       <Login />   
     </>
   )
 }

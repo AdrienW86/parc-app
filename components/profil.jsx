@@ -1,6 +1,5 @@
 import React from 'react'
 import Image from 'next/image'
-import {user} from '@/data'
 import Loupe from '@/assets/loupe.png'
 import Calendar from '@/assets/calendar.png'
 import styles from '@/styles/profil.module.css'
@@ -19,12 +18,12 @@ export default function profil() {
                 <p> Ville: </p>
             </div>
             <div className={styles.userInfos}>
-                <p> {user.siret} </p>
-                <p> {user.phone} </p>
-                <p> {user.email} </p>
-                <p> {user.website} </p>
-                <p> {user.adress.number} {user.adress.street} </p>
-                <p> {user.adress.zipcode} {user.adress.city} </p>
+                <p> 12345678987451 </p>
+                <p> 06.70.00.93.08 </p>
+                <p> leparcdegouts@orange.fr </p>
+                <p> leparcdegouts@orange</p>
+                <p> 264 lieu-dit Goûts </p>
+                <p> 47190 Aiguillon </p>
             </div>
        </section>          
         <h2 className={styles.h2}>

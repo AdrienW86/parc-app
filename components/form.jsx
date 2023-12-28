@@ -159,18 +159,14 @@ const MyForm = () => {
     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <div className={styles.container}>
         <section className={styles.bailleur}>
-          <h2 className={styles.h2}>Nom du bailleur</h2>
+          <h2 className={styles.h2}>Nom du locataire</h2>
           <input {...register('clientName', { required: true })} className={styles.name} type='text' value={clientName} placeholder='Nom du bailleur' />
           <input {...register('clientFirstName', { required: true })} className={styles.name} type='text' value={clientFirstName} placeholder='Prénom du bailleur' />
-          <h2 className={styles.h2}>Adresse du bailleur</h2>
-          <div>
+          <h2 className={styles.h2}>Adresse du locataire</h2>
             <input {...register('clientAddress.number', { required: true })} className={styles.number} type='number' placeholder='Numéro' value={clientAddress.number} />
-            <input {...register('clientAddress.street', { required: true })} className={styles.street} type='text' placeholder='Nom de la voie' value={clientAddress.street} />
-          </div>
-          <div>
+            <input {...register('clientAddress.street', { required: true })} className={styles.street} type='text' placeholder='Nom de la voie' value={clientAddress.street} />          
             <input {...register('clientAddress.zipcode', { required: true })} className={styles.zipcode} type='number' placeholder='Code postal' value={clientAddress.zipcode} />
-            <input {...register('clientAddress.city', { required: true })} className={styles.city} type='text' placeholder='Nom de la ville' value={clientAddress.city} />
-          </div>
+            <input {...register('clientAddress.city', { required: true })} className={styles.city} type='text' placeholder='Nom de la ville' value={clientAddress.city} />         
           <input {...register('clientAddress.country', { required: true })} className={styles.country} type='text' placeholder='Pays' value={clientAddress.country} />
         </section>
       </div>

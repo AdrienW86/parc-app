@@ -23,8 +23,7 @@ const MyForm = () => {
   useEffect(() => {
     fetchUserData();
     if (userId !== undefined && user && user.openAudit && user.openAudit[userId]) {
-    }
-   
+    }   
   }, [userId]);
 
   function formatDate(date) {
@@ -84,13 +83,8 @@ const MyForm = () => {
     electricity: {}
   }));
 
-  const handleButtonClick = (room, option, category) => {
-    console.log(room)
-    console.log(category)
-    console.log(option)
-    console.log(option.color)
+  const handleButtonClick = (room, option, category) => { 
     const pieceIndex = pieces.findIndex((piece) => piece.name === room.name);
-    console.log(pieceIndex)
     let categoryName = '';
 
     switch (category) {
@@ -126,7 +120,6 @@ const MyForm = () => {
   const userSignatureChange = (signatureData) => {
     setValue('userSignature', signatureData);
   };
-
 
   const deleteOneOpenAudit = async (index) => {
     const confirmDelete = window.confirm(`Êtes-vous sûr de vouloir clôturer cet audit ?` );        
@@ -168,8 +161,6 @@ const MyForm = () => {
       clientSignature: data.clientSignature
     };
 
-    console.log(closeAudit)
-
     try {
       const token = localStorage.getItem('token');
       const response = await fetch('/api/save-closeAudit', {
@@ -188,30 +179,29 @@ const MyForm = () => {
     } catch (error) {
       console.error('Erreur lors de l\'enregistrement du PDF dans la base de données :', error);
     }
-
     deleteOneOpenAudit(userId)
     router.push('/audit')
   };
-  const label = ['Revêtements des sols','Meubles / Menuiseries','Plafonds','Eléctricité / plomberie']
-  
 
+  const label = ['Revêtements des sols','Meubles / Menuiseries','Plafonds','Eléctricité / Plomberie']
+  
   return (
   <>
   {user &&  
       <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
       <div className={styles.container}>
         <section className={styles.bailleur}>
-          <h2 className={styles.h2}>Nom du bailleur</h2>
+          <h2 className={styles.h2}>Nom du locataire</h2>
           <p className={styles.name}> {user.openAudit[userId].name} {user.openAudit[userId].firstname} </p> 
     
-          <h2 className={styles.h2}>Adresse du bailleur</h2>
+          <h2 className={styles.h2}>Adresse du locataire</h2>
           <div>
-            <p className={styles.number}> {user.openAudit[userId].address.number} </p> 
-            <p className={styles.street}> {user.openAudit[userId].address.street}</p>
+            <p className={styles.number}> {user.openAudit[userId].address.number} {user.openAudit[userId].address.street} </p> 
+            <p className={styles.street}> {user.openAudit[userId].address.zipcode} {user.openAudit[userId].address.city}</p>
           </div>
           <div>
-            <p className={styles.zipcode}> {user.openAudit[userId].address.zipcode} </p>
-            <p className={styles.city}> {user.openAudit[userId].address.city}</p>
+            <p className={styles.zipcode}>  </p>
+            <p className={styles.city}> </p>
           </div>
           <p className={styles.country}> {user.openAudit[userId].address.country}</p>
         </section>
